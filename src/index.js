@@ -39,7 +39,7 @@ export default class App extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <UserList data={this.state.data} />
+        <UserList data={this.state.data} isFetching={this.state.isFetching} />
       </View>
     );
   }

@@ -1,5 +1,5 @@
 import React from "react";
-import { FlatList, Text, View } from "react-native";
+import { FlatList, Text, View, ActivityIndicator } from "react-native";
 import UserRow from "./UserRow";
 
 const _renderItem = ({ item }) => (
@@ -20,13 +20,19 @@ const _renderHeader = () => (
     <Text>Header</Text>
   </View>
 );
-const _renderFooter = () => (
-  <View
-    style={{ height: 30, backgroundColor: "#4fc3f7", justifyContent: "center" }}
-  >
-    <Text>Footer</Text>
-  </View>
-);
+const _renderFooter = isFetching => {
+  if (isFetching) {
+    return (
+      <ActivityIndicator
+        size="large"
+        animating={true}
+        color="#4fc3f7"
+        style={{ marginBottom: 12 }}
+      />
+    );
+  }
+  return null;
+};
 const _renderEmpty = () => (
   <View style={{ height: 40, alignItems: "center", justifyContent: "center" }}>
     <Text>Aucun résultat</Text>
@@ -40,7 +46,7 @@ export default (UserList = props => (
     keyExtractor={item => item.email}
     ItemSeparatorComponent={_renderSeparator}
     ListHeaderComponent={_renderHeader}
-    ListFooterComponent={_renderFooter}
+    ListFooterComponent={() => _renderFooter(props.isFetching)}
     ListEmptyComponent={_renderEmpty}
   />
 ));
