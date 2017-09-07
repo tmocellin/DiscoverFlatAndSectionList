@@ -27,6 +27,11 @@ const _renderFooter = () => (
     <Text>Footer</Text>
   </View>
 );
+const _renderEmpty = () => (
+  <View style={{ height: 40, alignItems: "center", justifyContent: "center" }}>
+    <Text>Aucun résultat</Text>
+  </View>
+);
 
 export default (UserList = props => (
   <FlatList
@@ -36,5 +41,6 @@ export default (UserList = props => (
     ItemSeparatorComponent={_renderSeparator}
     ListHeaderComponent={_renderHeader}
     ListFooterComponent={_renderFooter}
+    ListEmptyComponent={_renderEmpty}
   />
 ));
