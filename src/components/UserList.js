@@ -5,7 +5,7 @@ import UserRow from "./UserRow";
 const _renderItem = ({ item }) => (
   <UserRow
     name={item.name.last}
-    fistName={item.name.first}
+    firstName={item.name.first}
     picture={item.picture.thumbnail}
     email={item.email}
   />

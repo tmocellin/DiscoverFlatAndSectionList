@@ -6,7 +6,7 @@ export default (UserRow = props => (
     <Image style={styles.picture} source={{ uri: props.picture }} />
     <View>
       <Text style={styles.primaryText}>
-        {props.name + " " + props.firstName}
+        {`${props.name} ${props.firstName}`}
       </Text>
       <Text style={styles.secondaryText}>{props.email}</Text>
     </View>
