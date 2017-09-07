@@ -13,6 +13,20 @@ const _renderItem = ({ item }) => (
 const _renderSeparator = () => (
   <View style={{ height: 1, backgroundColor: "grey", marginLeft: 80 }} />
 );
+const _renderHeader = () => (
+  <View
+    style={{ height: 30, backgroundColor: "#4fc3f7", justifyContent: "center" }}
+  >
+    <Text>Header</Text>
+  </View>
+);
+const _renderFooter = () => (
+  <View
+    style={{ height: 30, backgroundColor: "#4fc3f7", justifyContent: "center" }}
+  >
+    <Text>Footer</Text>
+  </View>
+);
 
 export default (UserList = props => (
   <FlatList
@@ -20,5 +34,7 @@ export default (UserList = props => (
     renderItem={_renderItem}
     keyExtractor={item => item.email}
     ItemSeparatorComponent={_renderSeparator}
+    ListHeaderComponent={_renderHeader}
+    ListFooterComponent={_renderFooter}
   />
 ));
