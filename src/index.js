@@ -15,7 +15,8 @@ export default class App extends Component {
     totalPage: 3,
     seed: "demo",
     isFetching: true,
-    data: []
+    data: [],
+    hasMoreResult: true
   };
 
   async fetchData(page) {
@@ -25,10 +26,12 @@ export default class App extends Component {
         .seed}`
     );
     let jsondata = await response.json();
+    const nextPage = page + 1;
     this.setState({
-      page: page + 1,
+      page: nextPage,
       data: [...this.state.data, ...jsondata.results],
-      isFetching: false
+      isFetching: false,
+      hasMoreResult: nextPage <= this.state.totalPage
     });
   }
 
@@ -39,7 +42,12 @@ export default class App extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <UserList data={this.state.data} isFetching={this.state.isFetching} />
+        <UserList
+          data={this.state.data}
+          isFetching={this.state.isFetching}
+          loadMore={() => this.fetchData(this.state.page)}
+          hasMoreResult={this.state.hasMoreResult}
+        />
       </View>
     );
   }
