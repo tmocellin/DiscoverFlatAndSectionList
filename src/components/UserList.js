@@ -1,5 +1,12 @@
 import React from "react";
-import { FlatList, Text, View, ActivityIndicator, Button } from "react-native";
+import {
+  FlatList,
+  Text,
+  View,
+  ActivityIndicator,
+  Button,
+  RefreshControl
+} from "react-native";
 import UserRow from "./UserRow";
 
 const _renderItem = ({ item }) => (
@@ -53,5 +60,8 @@ export default (UserList = props => (
     ListFooterComponent={() =>
       _renderFooter(props.isFetching, props.hasMoreResult, props.loadMore)}
     ListEmptyComponent={_renderEmpty}
+    refreshControl={
+      <RefreshControl refreshing={props.refreshing} onRefresh={props.refresh} />
+    }
   />
 ));

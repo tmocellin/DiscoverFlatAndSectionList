@@ -16,7 +16,8 @@ export default class App extends Component {
     seed: "demo",
     isFetching: false,
     data: [],
-    hasMoreResult: true
+    hasMoreResult: true,
+    refreshing: false
   };
 
   async fetchData(page) {
@@ -41,6 +42,17 @@ export default class App extends Component {
     });
   }
 
+  async refreshData() {
+    this.setState({ refreshing: true });
+    const data = await this.fetchData(1);
+    this.setState({
+      page: 2,
+      data: data,
+      refreshing: false,
+      hasMoreResult: true
+    });
+  }
+
   async componentDidMount() {
     await this.loadData(this.state.page);
   }
@@ -53,6 +65,8 @@ export default class App extends Component {
           isFetching={this.state.isFetching}
           loadMore={() => this.loadData(this.state.page)}
           hasMoreResult={this.state.hasMoreResult}
+          refreshing={this.state.refreshing}
+          refresh={() => this.refreshData()}
         />
       </View>
     );
