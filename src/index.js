@@ -82,10 +82,26 @@ export default class App extends Component {
   }
 
   render() {
-    return (
+    /*
+    * Comment and Uncomment return below if you want to see FlatList or SectionList
+    */
+
+    /*return (
       <View style={styles.container}>
         <UserSectionList
           data={this.state.formatedData}
+          isFetching={this.state.isFetching}
+          loadMore={() => this.loadData(this.state.page)}
+          hasMoreResult={this.state.hasMoreResult}
+          refreshing={this.state.refreshing}
+          refresh={() => this.refreshData()}
+        />
+      </View>
+    );*/
+    return (
+      <View style={styles.container}>
+        <UserList
+          data={this.state.data}
           isFetching={this.state.isFetching}
           loadMore={() => this.loadData(this.state.page)}
           hasMoreResult={this.state.hasMoreResult}
