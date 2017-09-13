@@ -7,6 +7,8 @@
 import React, { Component } from "react";
 import { StyleSheet, View } from "react-native";
 import UserList from "./components/UserList";
+import UserSectionList from "./components/UserSectionList";
+import _ from "lodash";
 
 export default class App extends Component {
   state = {
@@ -17,7 +19,8 @@ export default class App extends Component {
     isFetching: false,
     data: [],
     hasMoreResult: true,
-    refreshing: false
+    refreshing: false,
+    formatedData: []
   };
 
   async fetchData(page) {
@@ -34,23 +37,44 @@ export default class App extends Component {
     this.setState({ isFetching: true });
     const data = await this.fetchData(page);
     const nextPage = page + 1;
+    const formatedData = this.fromArrayToSectionData(data);
     this.setState({
       page: nextPage,
       data: [...this.state.data, ...data],
       isFetching: false,
-      hasMoreResult: nextPage <= this.state.totalPage
+      hasMoreResult: nextPage <= this.state.totalPage,
+      formatedData: formatedData
     });
   }
 
   async refreshData() {
     this.setState({ refreshing: true });
     const data = await this.fetchData(1);
+    const formatedData = this.fromArrayToSectionData(data);
     this.setState({
       page: 2,
       data: data,
       refreshing: false,
-      hasMoreResult: true
+      hasMoreResult: true,
+      formatedData: formatedData
     });
+  }
+
+  fromArrayToSectionData(data) {
+    let ds = _.groupBy(data, d => d.name.last.charAt(0));
+    ds = _.reduce(
+      ds,
+      (acc, next, index) => {
+        acc.push({
+          key: index,
+          data: next
+        });
+        return acc;
+      },
+      []
+    );
+    ds = _.orderBy(ds, ["key"]);
+    return ds;
   }
 
   async componentDidMount() {
@@ -60,8 +84,8 @@ export default class App extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <UserList
-          data={this.state.data}
+        <UserSectionList
+          data={this.state.formatedData}
           isFetching={this.state.isFetching}
           loadMore={() => this.loadData(this.state.page)}
           hasMoreResult={this.state.hasMoreResult}
